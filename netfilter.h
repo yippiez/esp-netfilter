@@ -19,7 +19,7 @@ typedef struct netfilter{
 
 /*
   
-  netif_input_fn input; <-- functin called when phisycal layer recives ethernet frame
+  netif_input_fn input; <-- function called when phisycal layer recives ethernet frame
   netif_output_fn output; <-- function called when ip packet want to be sent
   netif_linkoutput_fn linkoutput; <-- calls phisycal driver to output ethernet packets
 
