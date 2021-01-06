@@ -5,6 +5,8 @@
 #include "lwip/etharp.h"
 #include "lwip/prot/ethernet.h"
 #include "lwip/ip4.h"
+#include "lwip/udp.h"
+
 
 typedef enum NetifType {
 
@@ -35,5 +37,6 @@ err_t netfilter_out(struct netfilter n, struct netif* netif, struct pbuf *p);
 
 struct eth_hdr* get_ethernet_header(struct pbuf *p, uint16_t offset);
 struct ip_hdr*  get_ip_header(struct pbuf *p, uint16_t offset);
+struct udp_hdr* get_udp_header(struct pbuf *p, uint16_t offset);
 
 #endif // NETFILTER_H

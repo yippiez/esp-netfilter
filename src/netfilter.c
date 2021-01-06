@@ -2,6 +2,7 @@
 #include "lwip/netif.h"
 #include "lwip/etharp.h"
 #include "lwip/pbuf.h"
+#include "lwip/udp.h"
 #include "lwip/prot/ethernet.h"
 
 
@@ -46,7 +47,9 @@ struct eth_hdr* get_ethernet_header(struct pbuf *p, uint16_t offset){
     // not an ethernet packet
     if(p->len < offset + sizeof(struct eth_hdr))
         return NULL;
+
     struct eth_hdr* eth = (struct eth_hdr*)( (char *)p->payload + offset );
+    
     return eth;
 }
 
@@ -58,4 +61,14 @@ struct ip_hdr*  get_ip_header(struct pbuf *p, uint16_t offset){
     struct ip_hdr* ip_header = (struct ip_hdr*)( (char *)p->payload + offset );
 
     return ip_header;
+}
+
+struct udp_hdr* get_udp_header(struct pbuf *p, uint16_t offset){
+
+    if(p->len < offset + sizeof(struct udp_hdr))
+        return NULL;
+
+    struct udp_hdr* udp_header = (struct udp_hdr*)( (char *)p->payload + offset );
+
+    return udp_header;
 }
