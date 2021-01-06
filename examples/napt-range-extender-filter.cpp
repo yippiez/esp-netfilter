@@ -1,5 +1,5 @@
-#define STASSID "SSID"
-#define STAPSK  "PASS"
+#define STASSID ""
+#define STAPSK  ""
 
 #define APSSID  "TESTEST"
 
@@ -21,7 +21,12 @@ struct netfilter n; // <-- GLOBAL
 
 err_t test_link_output(netif *netif, pbuf *p){
 
-  Serial.println("Function executed");
+  
+  struct eth_hdr* hdr = get_ethernet_header(p, 0);
+  
+  if(hdr)
+    Serial.printf("\nSRC:%02x:%02x:%02x:%02x", hdr->src.addr[0], hdr->src.addr[1], hdr->src.addr[2], hdr->src.addr[3]);
+
   return netfilter_out(n, netif, p);
 
 }
@@ -41,9 +46,9 @@ void setup() {
   WiFi.softAPConfig(SOFTAP_LOCAL_IP, SOFTAP_GATEWAY_IP, SOFTAP_SUBNET_IP);
 
   #ifdef APPSK
-    WiFi.softAP(APSSID, APPSK);
+  WiFi.softAP(APSSID, APPSK);
   #else
-    WiFi.softAP(APSSID);
+  WiFi.softAP(APSSID);
   #endif
 
   /* NAPT */
@@ -56,10 +61,13 @@ void setup() {
   dhcps_set_dns(1, WiFi.dnsIP(1));
 
 
+  Serial.println("Creating netfilter object");
   n = netfilter_new(test_link_output);
+
+  Serial.println("Starting netfilter");
   netfilter_start(&n, NETIF_AP);
 
-  Serial.printf("\n%p : %p function pointers old vs new linkoutput", n.old_output_fn, n.new_output_fn);
+  Serial.printf("%p : %p function pointers old vs new linkoutput", n.old_output_fn, n.new_output_fn);
 
 }
 

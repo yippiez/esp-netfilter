@@ -2,6 +2,8 @@
 #define NETFILTER_H
 
 #include "lwip/netif.h"
+#include "lwip/etharp.h"
+#include "lwip/prot/ethernet.h"
 
 typedef enum NetifType {
 
@@ -29,5 +31,7 @@ struct netfilter netfilter_new(netif_linkoutput_fn func);
 int netfilter_start(struct netfilter *n, NetifType_t type);
 int netfilter_stop (struct netfilter n, NetifType_t type);
 err_t netfilter_out(struct netfilter n, struct netif* netif, struct pbuf *p);
+
+struct eth_hdr* get_ethernet_header(struct pbuf *p, uint16_t offset);
 
 #endif // NETFILTER_H

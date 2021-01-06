@@ -1,5 +1,9 @@
 #include "netfilter.h"
 #include "lwip/netif.h"
+#include "lwip/etharp.h"
+#include "lwip/pbuf.h"
+#include "lwip/prot/ethernet.h"
+
 
 struct netfilter netfilter_new(netif_linkoutput_fn func){
 
@@ -34,4 +38,14 @@ err_t netfilter_out(struct netfilter n, struct netif* netif,struct pbuf *p){
     
     return (* n.old_output_fn)(netif, p);
 
+}
+
+
+struct eth_hdr* get_ethernet_header(struct pbuf *p, uint16_t offset){
+    
+    // not an ethernet packet
+    if(offset + p->len < sizeof(struct eth_hdr))
+        return NULL;
+    struct eth_hdr* eth = (struct eth_hdr*)( (char *)p->payload + offset );
+    return eth;
 }
