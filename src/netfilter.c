@@ -44,8 +44,18 @@ err_t netfilter_out(struct netfilter n, struct netif* netif,struct pbuf *p){
 struct eth_hdr* get_ethernet_header(struct pbuf *p, uint16_t offset){
     
     // not an ethernet packet
-    if(offset + p->len < sizeof(struct eth_hdr))
+    if(p->len < offset + sizeof(struct eth_hdr))
         return NULL;
     struct eth_hdr* eth = (struct eth_hdr*)( (char *)p->payload + offset );
     return eth;
+}
+
+struct ip_hdr*  get_ip_header(struct pbuf *p, uint16_t offset){
+
+    if(p->len < offset + sizeof(struct ip_hdr))
+        return NULL; // ip truncated
+
+    struct ip_hdr* ip_header = (struct ip_hdr*)( (char *)p->payload + offset );
+
+    return ip_header;
 }
