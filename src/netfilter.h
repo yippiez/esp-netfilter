@@ -10,12 +10,12 @@ typedef enum NetifType {
 
 } NetifType_t;
 
-typedef struct netfilter{
+struct netfilter{
 
   netif_linkoutput_fn new_output_fn;
   netif_linkoutput_fn old_output_fn;
 
-} netfilter_t;
+};
 
 /*
   

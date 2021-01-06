@@ -41,9 +41,9 @@ void setup() {
   WiFi.softAPConfig(SOFTAP_LOCAL_IP, SOFTAP_GATEWAY_IP, SOFTAP_SUBNET_IP);
 
   #ifdef APPSK
-  WiFi.softAP(APSSID, APPSK);
+    WiFi.softAP(APSSID, APPSK);
   #else
-  WiFi.softAP(APSSID);
+    WiFi.softAP(APSSID);
   #endif
 
   /* NAPT */
