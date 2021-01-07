@@ -4,7 +4,7 @@
 #include "lwip/pbuf.h"
 #include "lwip/udp.h"
 #include "lwip/prot/ethernet.h"
-
+#include "lwip/prot/dns.h"
 
 struct netfilter netfilter_new(netif_linkoutput_fn func){
 
@@ -72,3 +72,15 @@ struct udp_hdr* get_udp_header(struct pbuf *p, uint16_t offset){
 
     return udp_header;
 }
+
+struct dns_hdr* get_dns_header(struct pbuf *p, uint16_t offset){
+    
+    if(p->len < offset + SIZEOF_DNS_HDR)
+        return NULL;
+
+    struct dns_hdr* dns_header = (struct dns_hdr*)( (char *)p->payload + offset );
+
+    return dns_header;
+
+}
+
